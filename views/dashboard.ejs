@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id" class="app">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app">
+    <%- include('partials/header') %>
+
+    <div class="layout">
+      <%- include('partials/sidebar') %>
+
+      <main class="main-content">
+        <div class="container-narrow">
+          <h2 class="section-title">Dashboard</h2>
+
+          <!-- Contoh statistik (pakai variabel dari controller) -->
+          <div class="row">
+            <div class="card col-6">
+              <div class="fw-bold mb-2">Produk</div>
+              <div class="display-5"><%= (stats && stats.produk) || 0 %></div>
+            </div>
+            <div class="card col-6">
+              <div class="fw-bold mb-2">Promo</div>
+              <div class="display-5"><%= (stats && stats.promo) || 0 %></div>
+            </div>
+            <div class="card col-6">
+              <div class="fw-bold mb-2">FAQ</div>
+              <div class="display-5"><%= (stats && stats.faq) || 0 %></div>
+            </div>
+            <div class="card col-6">
+              <div class="fw-bold mb-2">SOP</div>
+              <div class="display-5"><%= (stats && stats.sop) || 0 %></div>
+            </div>
+            <div class="card col-6">
+              <div class="fw-bold mb-2">Claim</div>
+              <div class="display-5"><%= (stats && stats.claim) || 0 %></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

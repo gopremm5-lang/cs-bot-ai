@@ -1,0 +1,61 @@
+<%- include('partials/header', { title: "Claim Garansi - Replace", active: "claims-replace", toast, customCss: null }) %>
+<%- include('partials/sidebar', { active: "claims-replace" }) %>
+<div class="main-content">
+  <h2>Claim Garansi - Replace</h2>
+  <% if (claimsReplace && claimsReplace.length > 0) { %>
+    <div class="card">
+      <table class="table-modern">
+        <thead><tr><th>No</th><th>APK</th><th>Email</th><th>Pin</th><th>Durasi</th><th>Pembeli</th><th>Tanggal Pemberian</th><th>Expired</th><th>Status</th><th>Delay</th><th>Aksi</th></tr></thead>
+        <tbody>
+        <% claimsReplace.forEach((item,i) => { %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= item.apk %></td>
+            <td><%= item.email %></td>
+            <td><%= item.pin %></td>
+            <td><%= item.duration %></td>
+            <td><%= item.userEmail %> / <%= item.userNumber %></td>
+            <td><%= item.dateGiven %></td>
+            <td><%= item.exp %></td>
+            <td><%= item.status || "OPEN" %></td>
+            <td class="countdown" data-timestamp="<%= item.timestamp %>">--</td>
+            <td>
+              <% if (role === 'owner' && (item.status || "OPEN") !== "RESOLVED") { %>
+                <form method="post" action="/claims-replace/resolve">
+                  <input type="hidden" name="index" value="<%= i %>">
+                  <button class="btn btn-success" onclick="return confirm('Tandai selesai?')">✔️</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="card">Tidak ada klaim garansi replace.</div>
+  <% } %>
+</div>
+<script>
+// countdown function
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('.countdown').forEach(function(el) {
+    const ts = parseInt(el.getAttribute('data-timestamp'));
+    function updateCountdown() {
+      if (!ts) return;
+      const now = Date.now();
+      const diff = ts + 3600*1000 - now;
+      if (diff <= 0) {
+        el.innerText = "READY";
+      } else {
+        const mins = Math.floor(diff / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        el.innerText = mins + 'm ' + secs + 's';
+        setTimeout(updateCountdown, 1000);
+      }
+    }
+    if (ts) updateCountdown();
+  });
+});
+</script>
+<%- include('partials/footer') %>

@@ -1,0 +1,80 @@
+<%- include('partials/header', { title: "Stock Akun Berdasarkan APK", active: "stock", toast, customCss: 'stock' }) %>
+<%- include('partials/sidebar', { active: "stock" }) %>
+
+<div class="main-content">
+  <h2>Stock Akun Berdasarkan APK</h2>
+  
+  <!-- Form Tambah Akun -->
+  <% if (role === 'owner') { %>
+  <div class="card">
+    <form method="post" action="/stock/add" class="form-inline mb-3">
+      <input type="text" name="apk" class="input" placeholder="Nama APK (ex: youtube)" required>
+      <input type="text" name="email" class="input" placeholder="Email Akun" required>
+      <input type="text" name="pin" class="input" placeholder="PIN/Password" required>
+      <input type="date" name="dateCreated" class="input" required>
+      <input type="date" name="exp" class="input" required>
+      <button type="submit" class="btn">Tambah</button>
+    </form>
+  </div>
+  <% } %>
+
+  <!-- Grouping by APK -->
+  <% 
+    const apkMap = {};
+    if (stock && stock.length > 0) {
+      stock.forEach(item => {
+        if (!apkMap[item.apk]) apkMap[item.apk] = [];
+        apkMap[item.apk].push(item);
+      });
+  %>
+    <% Object.keys(apkMap).forEach(apk => { %>
+      <div class="stock-section">
+        <div class="stock-apk-title"><%= apk %></div>
+
+        <% apkMap[apk].forEach(account => { %>
+          <div class="stock-email-box">
+            <strong>Email:</strong> <%= account.email %><br>
+            <strong>PIN:</strong> <%= account.pin %><br>
+            <strong>Dibuat:</strong> <%= account.dateCreated %> | 
+            <strong>Expired:</strong> <%= account.exp %>
+          </div>
+
+          <% if (account.slots && account.slots.length > 0) { %>
+            <table class="stock-table table-modern">
+              <thead>
+                <tr>
+                  <th>Slot</th>
+                  <th>Email yang di-invite</th>
+                  <th>Nomor WA</th>
+                  <th>PIN/Password</th>
+                  <th>Durasi</th>
+                  <th>Tanggal Pembuatan</th>
+                  <th>Expired</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% account.slots.forEach((slot, idx) => { %>
+                  <tr>
+                    <td><%= idx + 1 %></td>
+                    <td><%= slot.userEmail || '' %></td>
+                    <td><%= slot.userNumber || '' %></td>
+                    <td><%= slot.pin || '' %></td>
+                    <td><%= slot.duration || '' %></td>
+                    <td><%= slot.dateCreated || '' %></td>
+                    <td><%= slot.exp || '' %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <p class="no-slot">Belum ada slot terisi.</p>
+          <% } %>
+        <% }) %>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>Tidak ada data stok akun.</p>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

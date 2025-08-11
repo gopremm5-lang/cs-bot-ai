@@ -1,0 +1,30 @@
+[
+  {
+    "apk": "youtube",
+    "emails": [
+      {
+        "email": "kaka@gmail.com",
+        "pin": "dsada",
+        "dateCreated": "2025-08-03",
+        "exp": "2025-08-23",
+        "slots": [
+          {
+            "user": "user1@gmail.com",
+            "wa": "628xxxxxxxxxx",
+            "duration": "1 bulan",
+            "dateGiven": "2025-08-04",
+            "exp": "2025-09-04"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "apk": "alight",
+    "email": "kaka@gmail.com",
+    "pin": "dsada",
+    "dateCreated": "2025-07-31",
+    "exp": "2025-08-19",
+    "slots": []
+  }
+]

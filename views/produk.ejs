@@ -1,0 +1,71 @@
+<%- include('partials/header', { title: "Produk", active: "produk", toast, customCss: null }) %>
+<%- include('partials/sidebar', { active: "produk" }) %>
+
+<div class="main-content container-narrow">
+  <h2 class="section-title">Manajemen Produk</h2>
+
+  <!-- Form Tambah -->
+  <div class="form-card">
+    <form class="form-row-1" action="/produk/save" method="POST">
+      <input name="produk" class="input" placeholder="Nama produk (ex: netflix)" required>
+      <textarea name="content" class="input" rows="4" placeholder="Detail produk..." required></textarea>
+      <button class="btn btn-block">Simpan Produk</button>
+    </form>
+  </div>
+
+  <!-- Toolbar: cari + sort + page size -->
+  <div class="prod-toolbar card">
+    <div class="prod-toolbar-row">
+      <div class="prod-field">
+        <div class="label">Cari</div>
+        <input id="q" class="input" placeholder="Ketik nama/isi produk…">
+      </div>
+      <div class="prod-field">
+        <div class="label">Urutkan</div>
+        <select id="sort" class="select">
+          <option value="name-asc">Nama A → Z</option>
+          <option value="name-desc">Nama Z → A</option>
+        </select>
+      </div>
+      <div class="prod-field">
+        <div class="label">Tampil per halaman</div>
+        <select id="pageSize" class="select">
+          <option>6</option>
+          <option selected>12</option>
+          <option>24</option>
+          <option>48</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daftar Produk (grid) -->
+  <div id="produkList" class="prod-grid">
+    <% produk.forEach(p => { %>
+      <div class="prod-card" data-name="<%= p.name %>" data-content="<%- (p.content || '').replace(/[\n\r]+/g,' ') %>">
+        <div class="prod-hdr">
+          <div class="prod-title"><%= p.name %></div>
+          <div class="prod-actions">
+            <button type="button" class="btn-ghost btn-sm prod-copy" data-copy="<%- p.content %>">Copy</button>
+            <form action="/produk/delete" method="POST" onsubmit="return confirm('Hapus produk ini?')">
+              <input type="hidden" name="produk" value="<%= p.name %>">
+              <button class="btn btn-danger btn-sm">Hapus</button>
+            </form>
+          </div>
+        </div>
+        <pre class="prod-preview"><%= p.content %></pre>
+        <button type="button" class="btn btn-ghost btn-sm prod-toggle">Tampilkan selengkapnya</button>
+      </div>
+    <% }) %>
+  </div>
+
+  <!-- Pager -->
+  <div id="pager" class="prod-pager card">
+    <button id="prev" class="btn btn-ghost btn-sm">‹ Sebelumnya</button>
+    <div id="pageInfo" class="muted"></div>
+    <button id="next" class="btn btn-ghost btn-sm">Berikutnya ›</button>
+  </div>
+</div>
+
+<script src="/js/produk.js"></script>
+<%- include('partials/footer') %>

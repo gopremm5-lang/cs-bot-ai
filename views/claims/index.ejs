@@ -1,0 +1,28 @@
+<%- include('../partials/header', { title, active: "claims", toast, customCss: null }) %>
+<%- include('../partials/sidebar', { active: "claims" }) %>
+
+<div class="main-content container-narrow">
+  <h2 class="section-title">Claims</h2>
+  <div class="table-wrap">
+    <table class="table table-compact">
+      <thead><tr>
+        <th>ID</th><th>APK</th><th>Kategori</th><th>Prioritas</th><th>Status</th><th>SLA Due</th><th>Aksi</th>
+      </tr></thead>
+      <tbody>
+      <% claims.forEach(c => { %>
+        <tr>
+          <td class="muted"><%= c.id %></td>
+          <td><%= c.apk %></td>
+          <td><%= c.category %></td>
+          <td><%= c.priority %></td>
+          <td><%= c.status %></td>
+          <td><%= c.slaDue ? c.slaDue.slice(0,16).replace('T',' ') : '-' %></td>
+          <td><a class="btn btn-ghost btn-sm" href="/claims/<%= c.id %>">Buka</a></td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

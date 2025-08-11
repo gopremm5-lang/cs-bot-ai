@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id" class="app">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>User Royal</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app">
+    <%- include('partials/header') %>
+
+    <div class="layout">
+      <%- include('partials/sidebar') %>
+
+      <main class="main-content">
+        <div class="container-narrow">
+          <h2 class="section-title">User Royal</h2>
+
+          <!-- ===== Form Input ===== -->
+          <div class="form-card">
+            <form method="post" action="/buyers/save" class="form-row-1">
+              <div>
+                <div class="label">Nomor WA User</div>
+                <input type="text" name="user" class="input" placeholder="62812xxxxxxx" required>
+              </div>
+
+              <div>
+                <div class="label">APK</div>
+                <select name="apk" class="select" required>
+                  <option value="" disabled selected>Pilih APK</option>
+                  <option>alight motion</option><option>apple music</option><option>bstation</option>
+                  <option>canva</option><option>capcut</option><option>catchplay</option>
+                  <option>chatgpt</option><option>disney</option><option>get contact</option>
+                  <option>hbo max</option><option>iqiyi</option><option>netflix</option>
+                  <option>picsart</option><option>prime vidio</option><option>remini</option>
+                  <option>vidio</option><option>vision+</option><option>viu</option>
+                  <option>wetv</option><option>youtube</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div>
+                  <div class="label">Email Pembeli</div>
+                  <input type="email" name="email" class="input" placeholder="nama@email.com" required>
+                </div>
+                <div>
+                  <div class="label">Durasi</div>
+                  <input type="text" name="durasi" class="input" placeholder="1 bulan, 90 hari, dst" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div>
+                  <div class="label">Tanggal Pemberian</div>
+                  <input type="date" name="dateGiven" class="input" required>
+                </div>
+                <div>
+                  <div class="label">Expired</div>
+                  <input type="date" name="exp" class="input" required>
+                </div>
+              </div>
+
+              <div>
+                <div class="label">Email Invite</div>
+                <input type="email" name="invite" class="input" placeholder="email yang di-invite" required>
+              </div>
+
+              <button type="submit" class="btn btn-block">Tambah</button>
+            </form>
+          </div>
+
+          <!-- ===== Ringkasan Pembeli Loyal ===== -->
+          <h3 class="section-title">Ringkasan Pembeli Loyal</h3>
+          <div class="table-wrap">
+            <table class="table table-compact">
+              <thead>
+                <tr>
+                  <th class="num">No</th>
+                  <th>Nomor WA</th>
+                  <th>Total Pembelian</th>
+                  <th>Statistik APK</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% buyersAggregated.forEach((item, i) => { %>
+                  <tr>
+                    <td class="num"><%= i+1 %></td>
+                    <td><%= item.user %></td>
+                    <td><%= item.total %></td>
+                    <td>
+                      <% if(item.statistik && Object.keys(item.statistik).length){ %>
+                        <% for (let apk in item.statistik) { %>
+                          <span class="badge">
+                            <%= apk %>
+                            <% for (let durasi in item.statistik[apk].rincian) { %>
+                              &nbsp;(<%= durasi %>: <%= item.statistik[apk].rincian[durasi] %>)
+                            <% } %>
+                          </span>
+                        <% } %>
+                      <% } else { %><span class="muted">-</span><% } %>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ===== Riwayat Transaksi Lengkap ===== -->
+          <h3 class="section-title">Riwayat Transaksi Lengkap</h3>
+          <div class="table-wrap">
+            <table class="table table-compact">
+              <thead>
+                <tr>
+                  <th class="num">No</th>
+                  <th>Nomor WA</th>
+                  <th>APK</th>
+                  <th>Email Pembeli</th>
+                  <th>Durasi</th>
+                  <th>Tanggal Pemberian</th>
+                  <th>Expired</th>
+                  <th>Email Invite</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% let num = 1; %>
+                <% buyers.forEach(user => { %>
+                  <% if (Array.isArray(user.data)) { %>
+                    <% user.data.forEach(trx => { %>
+                      <tr>
+                        <td class="num"><%= num++ %></td>
+                        <td><%= user.user %></td>
+                        <td><%= trx.apk %></td>
+                        <td><%= trx.email %></td>
+                        <td><%= trx.durasi %></td>
+                        <td><%= trx.dateGiven %></td>
+                        <td><%= trx.exp %></td>
+                        <td><%= trx.invite %></td>
+                      </tr>
+                    <% }) %>
+                  <% } %>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

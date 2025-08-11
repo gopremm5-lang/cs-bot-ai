@@ -1,0 +1,33 @@
+<%- include('partials/header', { title: "Claim Garansi", active: "claim", toast, customCss: null }) %>
+<%- include('partials/sidebar', { active: "claim" }) %>
+<div class="main-content">
+  <h2>Log Claim Garansi</h2>
+  <% if (claim && claim.length > 0) { %>
+    <div class="card">
+      <table class="table-modern">
+        <thead><tr><th>No</th><th>User</th><th>Pesan</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody>
+        <% claim.forEach((item, i) => { %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= item.user %></td>
+            <td><%= item.message %></td>
+            <td><%= item.status || 'OPEN' %></td>
+            <td>
+              <% if (role === 'owner' && (item.status || 'OPEN') !== 'RESOLVED') { %>
+                <form method="post" action="/claim/resolve" style="display:inline">
+                  <input type="hidden" name="idx" value="<%= i %>">
+                  <button class="btn btn-success" onclick="return confirm('Tandai sebagai selesai?')">✔️</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="card">Belum ada claim garansi.</div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

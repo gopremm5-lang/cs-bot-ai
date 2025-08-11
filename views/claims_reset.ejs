@@ -1,0 +1,39 @@
+<%- include('partials/header', { title: "Jadwal Reset Akun", active: "claims-reset", toast, customCss: null }) %>
+<%- include('partials/sidebar', { active: "claims-reset" }) %>
+<div class="main-content">
+  <h2>Jadwal Reset Akun</h2>
+  <% if (claimsReset && claimsReset.length > 0) { %>
+    <div class="card">
+      <table class="table-modern">
+        <thead><tr><th>No</th><th>APK</th><th>Email</th><th>Pin</th><th>User</th><th>Tgl Pemberian</th><th>Expired</th><th>Slot</th><th>Next Reset</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody>
+        <% claimsReset.forEach((item,i) => { %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= item.apk %></td>
+            <td><%= item.email %></td>
+            <td><%= item.pin %></td>
+            <td><%= item.user %></td>
+            <td><%= item.tglP %></td>
+            <td><%= item.exp %></td>
+            <td><%= item.slot %></td>
+            <td><%= item.nextReset %></td>
+            <td><%= item.done ? 'Done' : 'Pending' %></td>
+            <td>
+              <% if (role === 'owner' && !item.done) { %>
+                <form method="post" action="/claims-reset/mark">
+                  <input type="hidden" name="index" value="<%= i %>">
+                  <button class="btn btn-success" onclick="return confirm('Tandai reset sudah dilakukan?')">✔️</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="card">Tidak ada akun yang perlu di-reset.</div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

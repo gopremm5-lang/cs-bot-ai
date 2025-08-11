@@ -1,0 +1,84 @@
+<%- include('../partials/header', { title, active: "analytics", toast, customCss: null }) %>
+<%- include('../partials/sidebar', { active: "analytics" }) %>
+
+<div class="main-content container-narrow">
+  <h2 class="section-title">Analytics</h2>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="fw-bold mb-2">KPI Ringkas</div>
+        <div>Buyer total: <b><%= data.kpi.buyersTotal %></b></div>
+        <div>Claim total: <b><%= data.kpi.claimsTotal %></b></div>
+        <div>Blacklist total: <b><%= data.kpi.blacklistTotal %></b></div>
+        <div>Royal: <b><%= data.kpi.royalTotal %></b> | Non-Royal: <b><%= data.kpi.nonRoyalTotal %></b></div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="fw-bold mb-2">Blacklist Breakdown</div>
+        <table class="table table-compact">
+          <thead><tr><th>Level</th><th>Count</th></tr></thead>
+          <tbody>
+            <% data.blacklistArr.forEach(x=>{ %>
+              <tr><td><%= x.level %></td><td><%= x.count %></td></tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="fw-bold mb-2">DAU (30 hari)</div>
+    <canvas id="chartDAU" height="120"></canvas>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="fw-bold mb-2">Claims per APK (30 hari)</div>
+        <canvas id="chartApk" height="120"></canvas>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="fw-bold mb-2">Claim Status</div>
+        <canvas id="chartStatus" height="120"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  const dau = <%- JSON.stringify(data.dauSeries) %>;
+  const apk = <%- JSON.stringify(data.claimsByApk) %>;
+  const st  = <%- JSON.stringify(data.statusArr) %>;
+
+  // DAU
+  new Chart(document.getElementById('chartDAU'), {
+    type: 'line',
+    data: {
+      labels: dau.map(x=>x.day),
+      datasets: [{ label:'DAU', data: dau.map(x=>x.count) }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false }
+  });
+
+  // APK
+  new Chart(document.getElementById('chartApk'), {
+    type:'bar',
+    data:{ labels: apk.map(x=>x.apk), datasets:[{ label:'Claims', data: apk.map(x=>x.count) }] },
+    options:{ responsive:true, maintainAspectRatio:false }
+  });
+
+  // Status
+  new Chart(document.getElementById('chartStatus'), {
+    type:'bar',
+    data:{ labels: st.map(x=>x.status), datasets:[{ label:'Jumlah', data: st.map(x=>x.count) }] },
+    options:{ responsive:true, maintainAspectRatio:false }
+  });
+</script>
+
+<%- include('../partials/footer') %>

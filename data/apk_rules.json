@@ -1,0 +1,5 @@
+{
+  "default": { "sla": { "P1": 3, "P2": 12, "P3": 48 }, "required": ["invite_email"], "optional": ["owner_email"] },
+  "youtube": { "sla": { "P1": 2, "P2": 8, "P3": 24 }, "required": ["invite_email","owner_email"] },
+  "netflix": { "sla": { "P1": 3, "P2": 12, "P3": 48 }, "required": ["owner_email"] }
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "user": "kakakakk",
+    "statistik": {
+      "alight motion": {
+        "total": 1,
+        "rincian": {
+          "12 bulan": 1
+        }
+      },
+      "chatgpt": {
+        "total": 1,
+        "rincian": {
+          "12 bulan": 1
+        }
+      }
+    },
+    "data": [
+      {
+        "apk": "alight motion",
+        "email": "kaka@gmail.com",
+        "durasi": "12 bulan",
+        "dateGiven": "2025-08-14",
+        "exp": "2025-08-29",
+        "invite": "kampang@gmail.com"
+      },
+      {
+        "apk": "chatgpt",
+        "email": "kaka@gmail.com",
+        "durasi": "12 bulan",
+        "dateGiven": "2025-08-22",
+        "exp": "2025-09-05",
+        "invite": "kaika@gmail.com"
+      }
+    ]
+  },
+  {
+    "user": "6281391726391",
+    "statistik": {
+      "youtube": {
+        "total": 1,
+        "rincian": {
+          "1 bulan": 1
+        }
+      }
+    },
+    "data": [
+      {
+        "apk": "youtube",
+        "email": "kawasan@gmail.com",
+        "durasi": "1 bulan",
+        "dateGiven": "2025-08-10",
+        "exp": "2025-08-24",
+        "invite": "kaka@gmail.com"
+      }
+    ]
+  },
+  {
+    "user": "6281273829163",
+    "statistik": {
+      "netflix": {
+        "total": 1,
+        "rincian": {
+          "1 bulan": 1
+        }
+      }
+    },
+    "data": [
+      {
+        "apk": "netflix",
+        "email": "vuyer@gmail.com",
+        "durasi": "1 bulan",
+        "dateGiven": "2025-08-10",
+        "exp": "2026-02-10",
+        "invite": "buyer@gmail.com"
+      }
+    ]
+  },
+  {
+    "user": "62813712683",
+    "statistik": {
+      "youtube": {
+        "total": 1,
+        "rincian": {
+          "3 bulan": 1
+        }
+      }
+    },
+    "data": [
+      {
+        "apk": "youtube",
+        "email": "kakaka@gmail.com",
+        "durasi": "3 bulan",
+        "dateGiven": "2025-08-10",
+        "exp": "2025-11-10",
+        "invite": "gagak@yahoo.com"
+      }
+    ]
+  }
+]

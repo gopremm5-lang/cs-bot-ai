@@ -1,0 +1,60 @@
+<%- include('../partials/header', { title, active: "promo", toast, customCss: null }) %>
+<%- include('../partials/sidebar', { active: "promo" }) %>
+
+<div class="main-content container-narrow">
+  <h2 class="section-title">Promo (Embedded)</h2>
+
+  <div class="form-card">
+    <form action="/promo/save" method="POST" class="form-row-1">
+      <input type="hidden" name="idx" value="">
+      <div class="label">Aktif?</div>
+      <label><input type="checkbox" name="on"> On</label>
+      <div class="label">Hanya Embedded?</div>
+      <label><input type="checkbox" name="embedOnly" checked> Ya (sisip di akhir chat relevan)</label>
+
+      <div class="label">APK (opsional, kosong = generic)</div>
+      <input class="input" name="apk" placeholder="youtube / netflix / ...">
+
+      <div class="label">Periode</div>
+      <div class="form-row">
+        <input class="input" name="startAt" placeholder="2025-08-11T00:00:00Z">
+        <input class="input" name="endAt" placeholder="2025-09-11T00:00:00Z">
+      </div>
+
+      <div class="label">Kalimat pendek (≤ 120 char)</div>
+      <input class="input" name="shortLine" placeholder="Lagi ada bundling YouTube Family 15%. Mau cek?">
+
+      <div class="label">Teks panjang (opsional)</div>
+      <textarea class="input" name="text" rows="4" placeholder="Deskripsi promo"></textarea>
+
+      <button class="btn">Simpan Promo</button>
+    </form>
+  </div>
+
+  <div class="table-wrap">
+    <table class="table table-compact">
+      <thead><tr><th>#</th><th>On</th><th>Embed</th><th>APK</th><th>Start</th><th>End</th><th>Short</th><th>Aksi</th></tr></thead>
+      <tbody>
+      <% (promo||[]).forEach((p,i)=>{ %>
+        <tr>
+          <td class="num"><%= i %></td>
+          <td><%= p.on ? 'On':'Off' %></td>
+          <td><%= p.embedOnly ? 'Yes':'No' %></td>
+          <td><%= p.apk || '-' %></td>
+          <td><%= p.startAt || '-' %></td>
+          <td><%= p.endAt || '-' %></td>
+          <td class="muted"><%= (p.shortLine||'-') %></td>
+          <td>
+            <form action="/promo/delete" method="POST" onsubmit="return confirm('Hapus promo ini?')">
+              <input type="hidden" name="idx" value="<%= i %>">
+              <button class="btn btn-danger btn-sm">Hapus</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

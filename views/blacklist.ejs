@@ -1,0 +1,46 @@
+<%- include('partials/header', { title: "Blacklist", active: "blacklist", toast, customCss: null }) %>
+<%- include('partials/sidebar', { active: "blacklist" }) %>
+<div class="main-content">
+  <h2>Blacklist</h2>
+  <% if (role === 'owner') { %>
+  <form method="post" action="/blacklist/save" class="card mb-4">
+    <div>
+      <label>User (nomor/nama):</label>
+      <input type="text" name="user" required class="input">
+    </div>
+    <div>
+      <label>Alasan:</label>
+      <input type="text" name="reason" required class="input">
+    </div>
+    <button type="submit" class="btn">Tambah Blacklist</button>
+  </form>
+  <% } %>
+  <% if (blacklist && blacklist.length > 0) { %>
+    <div class="card">
+      <table class="table-modern">
+        <thead><tr><th>No</th><th>User</th><th>Alasan</th><th>Tanggal</th><th></th></tr></thead>
+        <tbody>
+        <% blacklist.forEach((item, i) => { %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= item.user %></td>
+            <td><%= item.reason %></td>
+            <td><%= new Date(item.date).toLocaleDateString("id-ID") %></td>
+            <td>
+              <% if (role === 'owner') { %>
+              <form method="post" action="/blacklist/delete" style="display:inline">
+                <input type="hidden" name="idx" value="<%= i %>">
+                <button class="btn btn-danger" onclick="return confirm('Hapus blacklist ini?')">🗑️</button>
+              </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="card">Tidak ada blacklist.</div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>
