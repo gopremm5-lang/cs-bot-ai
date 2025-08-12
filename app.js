@@ -118,22 +118,12 @@ app.use('/buyers', require('./routes/buyers'));  // user royal
 app.use('/stock',  require('./routes/stock'));
 app.use('/promo',  require('./routes/promo'));
 app.use('/analytics', require('./routes/analytics')); // kalau ada
+app.use('/claims', require('./routes/claims'));
 
 /* ================== CLAIMS PAGES (VIEW) ================== */
-/* /claim  -> daftar log klaim (view & mark) */
-app.get("/claim", requireLogin, async (req, res) => {
-  const claim = await loadJson("log_claim.json");
-  const toast = req.session.toast || null; delete req.session.toast;
-  res.render("claim", { claim, toast });
-});
-app.post("/claim/resolve", requireOwner, async (req, res) => {
-  const { idx } = req.body;
-  let claim = await loadJson("log_claim.json");
-  if (Array.isArray(claim) && claim[idx]) claim[idx].status = "RESOLVED";
-  await saveJson("log_claim.json", claim);
-  setToast(req,"success","Claim di-mark resolved.");
-  res.redirect("/claim");
-});
+/* legacy redirect */
+app.get('/claim', (req,res)=> res.redirect('/claims'));
+app.post('/claim/resolve', (req,res)=> res.redirect('/claims'));
 
 /* /claims-replace -> daftar khusus replace */
 app.get("/claims-replace", requireLogin, async (req, res) => {
@@ -152,22 +142,25 @@ app.post("/claims-replace/resolve", requireOwner, async (req, res) => {
   res.redirect("/claims-replace");
 });
 
-/* /reset -> halaman reset (alias dari claims reset) */
-app.get("/reset", requireLogin, async (req, res) => {
-  let claimsReset = await loadJson("claimsReset.json");
+/* /claims-reset page */
+app.get('/claims-reset', requireLogin, async (req, res) => {
+  let claimsReset = await loadJson('claimsReset.json');
   if (!Array.isArray(claimsReset)) claimsReset = [];
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render("reset", { claimsReset, toast });
+  res.render('claims_reset', { claimsReset, toast });
 });
-app.post("/reset/mark", requireOwner, async (req, res) => {
+app.post('/claims-reset/mark', requireOwner, async (req, res) => {
   const { index } = req.body;
-  let claimsReset = await loadJson("claimsReset.json");
+  let claimsReset = await loadJson('claimsReset.json');
   if (Array.isArray(claimsReset) && claimsReset[index])
     claimsReset[index].done = true;
-  await saveJson("claimsReset.json", claimsReset);
-  setToast(req,"success","Reset ditandai selesai.");
-  res.redirect("/reset");
+  await saveJson('claimsReset.json', claimsReset);
+  setToast(req,'success','Reset ditandai selesai.');
+  res.redirect('/claims-reset');
 });
+// legacy alias
+app.get('/reset', (req,res)=> res.redirect('/claims-reset'));
+app.post('/reset/mark', (req,res)=> res.redirect('/claims-reset'));
 
 /* ================== BLACKLIST ================== */
 app.get("/blacklist", requireLogin, async (req, res) => {
