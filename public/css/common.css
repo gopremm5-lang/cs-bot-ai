@@ -1,8 +1,15 @@
+:root{
+  --color-bg:#f9fafb;
+  --color-surface:#fff;
+  --color-primary:#2563eb;
+  --color-accent:#1e40af;
+  --color-text:#111827;
+}
 *{box-sizing:border-box;}
-body{margin:0;font-family:system-ui,Arial,sans-serif;background:#f5f6f8;color:#333;}
-a{color:#0366d6;text-decoration:none;}
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--color-bg);color:var(--color-text);}
+a{color:var(--color-primary);text-decoration:none;}
 button{cursor:pointer;}
 .hidden{display:none;}
-.toast{position:fixed;top:1rem;right:1rem;background:#333;color:#fff;padding:.75rem 1rem;border-radius:4px;opacity:0;transition:opacity .3s;}
+.toast{position:fixed;top:1rem;right:1rem;background:var(--color-text);color:#fff;padding:.75rem 1rem;border-radius:4px;opacity:0;transition:opacity .3s;}
 .toast.show{opacity:1;}
 form label{display:block;margin:.5rem 0;}
