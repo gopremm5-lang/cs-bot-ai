@@ -7,7 +7,7 @@ router.get("/", requireLogin, async (req, res) => {
   const sop = await loadSOP() || [];
   const toast = req.session.toast || null;
   delete req.session.toast;
-  res.render("sop", { sop, toast });
+  res.render("sop", { sop, toast, active: 'sop' });
 });
 
 router.post("/save", requireOwner, async (req, res) => {

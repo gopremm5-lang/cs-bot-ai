@@ -18,7 +18,7 @@ async function saveJson(arr){
 router.get('/', requireLogin, async (req,res)=>{
   const promo = await loadJson();
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render('promo/index', { title:'Promo', promo, toast });
+  res.render('promo/index', { title:'Promo', promo, toast, active: 'promo' });
 });
 
 router.post('/save', requireOwner, async (req,res)=>{

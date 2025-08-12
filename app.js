@@ -57,12 +57,12 @@ async function loadProdukData(){
 }
 
 /* ================== AUTH ================== */
-app.get("/login", (req, res) => res.render("login", { error: null }));
+app.get("/login", (req, res) => res.render("login", { error: null, active: '' }));
 app.post("/login", (req, res) => {
   const { role, password } = req.body;
   const ok = (role === 'owner' && password === OWNER_PASS) ||
              (role === 'admin' && password === ADMIN_PASS);
-  if (!ok) return res.render("login", { error: "Role atau password salah!" });
+  if (!ok) return res.render("login", { error: "Role atau password salah!", active: '' });
   req.session.isLoggedIn = true;
   req.session.role = role;
   res.redirect("/dashboard");
@@ -88,14 +88,14 @@ app.get(["/","/dashboard"], requireLogin, async (req, res) => {
   };
 
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render("dashboard", { stats, toast });
+  res.render("dashboard", { stats, toast, active: 'dashboard' });
 });
 
 /* ================== PRODUK ================== */
 app.get("/produk", requireLogin, async (req, res) => {
   const produk = await loadProdukData();
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render("produk", { produk, toast });
+  res.render("produk", { produk, toast, active: 'produk' });
 });
 app.post("/produk/save", requireOwner, async (req, res) => {
   const { produk, content } = req.body;
@@ -118,7 +118,7 @@ app.use('/buyers', require('./routes/buyers'));  // user royal
 app.use('/stock',  require('./routes/stock'));
 app.use('/promo',  require('./routes/promo'));
 app.use('/analytics', require('./routes/analytics')); // kalau ada
-app.use('/claims', require('./routes/claims'));
+app.use('/claims', requireLogin, require('./routes/claims'));
 
 /* ================== CLAIMS PAGES (VIEW) ================== */
 /* legacy redirect */
@@ -130,7 +130,7 @@ app.get("/claims-replace", requireLogin, async (req, res) => {
   let claimsReplace = await loadJson("claimsReplace.json");
   if (!Array.isArray(claimsReplace)) claimsReplace = [];
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render("claims_replace", { claimsReplace, toast });
+  res.render("claims_replace", { claimsReplace, toast, active: 'claims-replace' });
 });
 app.post("/claims-replace/resolve", requireOwner, async (req, res) => {
   const { index } = req.body;
@@ -147,7 +147,7 @@ app.get('/claims-reset', requireLogin, async (req, res) => {
   let claimsReset = await loadJson('claimsReset.json');
   if (!Array.isArray(claimsReset)) claimsReset = [];
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render('claims_reset', { claimsReset, toast });
+  res.render('claims_reset', { claimsReset, toast, active: 'claims-reset' });
 });
 app.post('/claims-reset/mark', requireOwner, async (req, res) => {
   const { index } = req.body;
@@ -166,7 +166,7 @@ app.post('/reset/mark', (req,res)=> res.redirect('/claims-reset'));
 app.get("/blacklist", requireLogin, async (req, res) => {
   const blacklist = await loadJson("blacklist.json");
   const toast = req.session.toast || null; delete req.session.toast;
-  res.render("blacklist", { blacklist, toast });
+  res.render("blacklist", { blacklist, toast, active: 'blacklist' });
 });
 app.post("/blacklist/save", requireOwner, async (req, res) => {
   const { user, reason } = req.body;

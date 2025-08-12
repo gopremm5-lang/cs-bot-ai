@@ -7,7 +7,7 @@ router.get("/", requireLogin, async (req, res) => {
   const faq = await loadFAQ() || [];
   const toast = req.session.toast || null;
   delete req.session.toast;
-  res.render("faq", { faq, toast });
+  res.render("faq", { faq, toast, active: 'faq' });
 });
 router.post('/save', requireOwner, async (req, res) => {
   const { question, answer } = req.body;

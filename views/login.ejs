@@ -1,94 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Login Admin Panel</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg);}
-    .login-box {
-      background: var(--white);
-      box-shadow: 0 8px 32px #0002;
-      border-radius: 16px;
-      padding: 36px 32px 28px 32px;
-      width: 100%; max-width: 370px;
-      animation: fadein 1s;
-    }
-    .login-title {
-      text-align: center;
-      font-weight: bold;
-      font-size: 2rem;
-      margin-bottom: 18px;
-      color: var(--primary);
-    }
-    .login-box img {
-      display: block;
-      margin: 0 auto 22px auto;
-      max-width: 78px;
-      filter: drop-shadow(0 2px 8px #0002);
-      border-radius: 20px;
-    }
-    .login-box .input {
-      width: 100%;
-      border: 1.4px solid var(--gray);
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 17px;
-      font-size: 1.06rem;
-      transition: border .2s;
-    }
-    .login-box .input:focus {
-      border-color: var(--accent);
-      outline: none;
-      box-shadow: 0 0 0 1.7px var(--accent);
-    }
-    .btn-login {
-      width: 100%;
-      background: var(--accent);
-      color: var(--white);
-      padding: 13px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.08rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 12px #0001;
-      transition: background 0.22s;
-      margin-bottom: 5px;
-    }
-    .btn-login:hover {
-      background: #ea580c;
-    }
-    .error-msg {
-      color: #e11d48;
-      text-align: center;
-      background: #fef2f2;
-      padding: 7px 0 5px 0;
-      border-radius: 6px;
-      margin-bottom: 16px;
-      font-weight: 500;
-      font-size: .98rem;
-    }
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(30px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-  <form class="login-box" method="post" action="/login">
-    <img src="/images/logo.png" alt="Logo" />
-    <div class="login-title">Admin Panel</div>
-    <% if (error) { %>
-      <div class="error-msg"><%= error %></div>
-    <% } %>
-    <select name="role" class="input" required>
-      <option value="admin">Admin</option>
-      <option value="owner">Owner</option>
-    </select>
-    <input type="password" name="password" class="input" placeholder="Masukkan password..." required autofocus autocomplete="current-password">
-    <button type="submit" class="btn-login">Login</button>
+<nav>
+  <div class="nav-left">
+    <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <span class="nav-title">Admin Panel</span>
+  </div>
+  <div class="nav-right">
+    <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+  </div>
+</nav>
+<aside class="sidebar" id="sidebar">
+  <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+</aside>
+<main class="main-content">
+  <h2>Login</h2>
+  <% if (error) { %><p class="error"><%= error %></p><% } %>
+  <form method="post" action="/login">
+    <label>Role <select name="role"><option value="owner">Owner</option><option value="admin">Admin</option></select></label>
+    <label>Password <input type="password" name="password"/></label>
+    <button type="submit">Login</button>
   </form>
+</main>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
+    document.getElementById('sidebar')?.classList.toggle('open');
+  });
+</script>
 </body>
 </html>

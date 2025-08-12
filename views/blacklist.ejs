@@ -1,46 +1,52 @@
-<%- include('partials/header', { title: "Blacklist", active: "blacklist", toast, customCss: null }) %>
-<%- include('partials/sidebar', { active: "blacklist" }) %>
-<div class="main-content">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blacklist</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/blacklist.css">
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <span class="nav-title">Admin Panel</span>
+  </div>
+  <div class="nav-right">
+    <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+    <a href="/produk" class="<%= active==='produk'?'active':'' %>">Produk</a>
+    <a href="/buyers" class="<%= active==='buyers'?'active':'' %>">User Royal</a>
+    <a href="/claims" class="<%= active==='claims'?'active':'' %>">Claims</a>
+    <a href="/stock" class="<%= active==='stock'?'active':'' %>">Stock</a>
+    <a href="/faq" class="<%= active==='faq'?'active':'' %>">FAQ</a>
+    <a href="/sop" class="<%= active==='sop'?'active':'' %>">SOP</a>
+    <a href="/promo" class="<%= active==='promo'?'active':'' %>">Promo</a>
+    <a href="/blacklist" class="<%= active==='blacklist'?'active':'' %>">Blacklist</a>
+    <a href="/logout">Logout</a>
+  </div>
+</nav>
+<aside class="sidebar" id="sidebar">
+  <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+  <a href="/produk" class="<%= active==='produk'?'active':'' %>">Produk</a>
+  <a href="/buyers" class="<%= active==='buyers'?'active':'' %>">User Royal</a>
+  <a href="/claims" class="<%= active==='claims'?'active':'' %>">Claims</a>
+  <a href="/claims-replace" class="<%= active==='claims-replace'?'active':'' %>">Claims Replace</a>
+  <a href="/claims-reset" class="<%= active==='claims-reset'?'active':'' %>">Claims Reset</a>
+  <a href="/stock" class="<%= active==='stock'?'active':'' %>">Stock</a>
+  <a href="/faq" class="<%= active==='faq'?'active':'' %>">FAQ</a>
+  <a href="/sop" class="<%= active==='sop'?'active':'' %>">SOP</a>
+  <a href="/promo" class="<%= active==='promo'?'active':'' %>">Promo</a>
+  <a href="/blacklist" class="<%= active==='blacklist'?'active':'' %>">Blacklist</a>
+</aside>
+<main class="main-content">
   <h2>Blacklist</h2>
-  <% if (role === 'owner') { %>
-  <form method="post" action="/blacklist/save" class="card mb-4">
-    <div>
-      <label>User (nomor/nama):</label>
-      <input type="text" name="user" required class="input">
-    </div>
-    <div>
-      <label>Alasan:</label>
-      <input type="text" name="reason" required class="input">
-    </div>
-    <button type="submit" class="btn">Tambah Blacklist</button>
-  </form>
-  <% } %>
-  <% if (blacklist && blacklist.length > 0) { %>
-    <div class="card">
-      <table class="table-modern">
-        <thead><tr><th>No</th><th>User</th><th>Alasan</th><th>Tanggal</th><th></th></tr></thead>
-        <tbody>
-        <% blacklist.forEach((item, i) => { %>
-          <tr>
-            <td><%= i+1 %></td>
-            <td><%= item.user %></td>
-            <td><%= item.reason %></td>
-            <td><%= new Date(item.date).toLocaleDateString("id-ID") %></td>
-            <td>
-              <% if (role === 'owner') { %>
-              <form method="post" action="/blacklist/delete" style="display:inline">
-                <input type="hidden" name="idx" value="<%= i %>">
-                <button class="btn btn-danger" onclick="return confirm('Hapus blacklist ini?')">🗑️</button>
-              </form>
-              <% } %>
-            </td>
-          </tr>
-        <% }) %>
-        </tbody>
-      </table>
-    </div>
-  <% } else { %>
-    <div class="card">Tidak ada blacklist.</div>
-  <% } %>
-</div>
-<%- include('partials/footer') %>
+  <p>Total: <%= (blacklist && blacklist.length) || 0 %></p>
+</main>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
+    document.getElementById('sidebar')?.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

@@ -1,6 +1,33 @@
-<%- include('partials/header', { title: "404 Not Found", active: "" }) %>
-<div class="main-content" style="text-align:center; margin-top:70px">
-  <h1 style="font-size:4rem;">404</h1>
-  <p style="font-size:1.3rem">Halaman tidak ditemukan.<br><a href="/dashboard" class="btn">Kembali ke Dashboard</a></p>
-</div>
-<%- include('partials/footer') %>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 Not Found</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/404.css">
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <span class="nav-title">Admin Panel</span>
+  </div>
+  <div class="nav-right">
+    <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+  </div>
+</nav>
+<aside class="sidebar" id="sidebar">
+  <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+</aside>
+<main class="main-content">
+  <h2>Halaman tidak ditemukan</h2>
+  <p><a href="/dashboard">Kembali ke Dashboard</a></p>
+</main>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
+    document.getElementById('sidebar')?.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

@@ -8,13 +8,13 @@ const {
 
 router.get('/', async (req,res)=>{
   const claims = await listClaims({});
-  res.render('claims/index', { title: 'Claims', claims, toast:null });
+  res.render('claims/index', { title: 'Claims', claims, toast:null, active: 'claims' });
 });
 
 router.get('/:id', async (req,res)=>{
   const cl = await getClaim(req.params.id);
   if (!cl) return res.status(404).send('Not found');
-  res.render('claims/detail', { title:`Claim ${cl.id}`, claim:cl, toast:null });
+  res.render('claims/detail', { title:`Claim ${cl.id}`, claim:cl, toast:null, active: 'claims' });
 });
 
 router.post('/:id/priority', async (req,res)=>{

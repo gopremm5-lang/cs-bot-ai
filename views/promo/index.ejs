@@ -1,60 +1,52 @@
-<%- include('../partials/header', { title, active: "promo", toast, customCss: null }) %>
-<%- include('../partials/sidebar', { active: "promo" }) %>
-
-<div class="main-content container-narrow">
-  <h2 class="section-title">Promo (Embedded)</h2>
-
-  <div class="form-card">
-    <form action="/promo/save" method="POST" class="form-row-1">
-      <input type="hidden" name="idx" value="">
-      <div class="label">Aktif?</div>
-      <label><input type="checkbox" name="on"> On</label>
-      <div class="label">Hanya Embedded?</div>
-      <label><input type="checkbox" name="embedOnly" checked> Ya (sisip di akhir chat relevan)</label>
-
-      <div class="label">APK (opsional, kosong = generic)</div>
-      <input class="input" name="apk" placeholder="youtube / netflix / ...">
-
-      <div class="label">Periode</div>
-      <div class="form-row">
-        <input class="input" name="startAt" placeholder="2025-08-11T00:00:00Z">
-        <input class="input" name="endAt" placeholder="2025-09-11T00:00:00Z">
-      </div>
-
-      <div class="label">Kalimat pendek (≤ 120 char)</div>
-      <input class="input" name="shortLine" placeholder="Lagi ada bundling YouTube Family 15%. Mau cek?">
-
-      <div class="label">Teks panjang (opsional)</div>
-      <textarea class="input" name="text" rows="4" placeholder="Deskripsi promo"></textarea>
-
-      <button class="btn">Simpan Promo</button>
-    </form>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promo</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/promo.css">
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <span class="nav-title">Admin Panel</span>
   </div>
-
-  <div class="table-wrap">
-    <table class="table table-compact">
-      <thead><tr><th>#</th><th>On</th><th>Embed</th><th>APK</th><th>Start</th><th>End</th><th>Short</th><th>Aksi</th></tr></thead>
-      <tbody>
-      <% (promo||[]).forEach((p,i)=>{ %>
-        <tr>
-          <td class="num"><%= i %></td>
-          <td><%= p.on ? 'On':'Off' %></td>
-          <td><%= p.embedOnly ? 'Yes':'No' %></td>
-          <td><%= p.apk || '-' %></td>
-          <td><%= p.startAt || '-' %></td>
-          <td><%= p.endAt || '-' %></td>
-          <td class="muted"><%= (p.shortLine||'-') %></td>
-          <td>
-            <form action="/promo/delete" method="POST" onsubmit="return confirm('Hapus promo ini?')">
-              <input type="hidden" name="idx" value="<%= i %>">
-              <button class="btn btn-danger btn-sm">Hapus</button>
-            </form>
-          </td>
-        </tr>
-      <% }) %>
-      </tbody>
-    </table>
+  <div class="nav-right">
+    <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+    <a href="/produk" class="<%= active==='produk'?'active':'' %>">Produk</a>
+    <a href="/buyers" class="<%= active==='buyers'?'active':'' %>">User Royal</a>
+    <a href="/claims" class="<%= active==='claims'?'active':'' %>">Claims</a>
+    <a href="/stock" class="<%= active==='stock'?'active':'' %>">Stock</a>
+    <a href="/faq" class="<%= active==='faq'?'active':'' %>">FAQ</a>
+    <a href="/sop" class="<%= active==='sop'?'active':'' %>">SOP</a>
+    <a href="/promo" class="<%= active==='promo'?'active':'' %>">Promo</a>
+    <a href="/blacklist" class="<%= active==='blacklist'?'active':'' %>">Blacklist</a>
+    <a href="/logout">Logout</a>
   </div>
-</div>
-
-<%- include('../partials/footer') %>
+</nav>
+<aside class="sidebar" id="sidebar">
+  <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+  <a href="/produk" class="<%= active==='produk'?'active':'' %>">Produk</a>
+  <a href="/buyers" class="<%= active==='buyers'?'active':'' %>">User Royal</a>
+  <a href="/claims" class="<%= active==='claims'?'active':'' %>">Claims</a>
+  <a href="/claims-replace" class="<%= active==='claims-replace'?'active':'' %>">Claims Replace</a>
+  <a href="/claims-reset" class="<%= active==='claims-reset'?'active':'' %>">Claims Reset</a>
+  <a href="/stock" class="<%= active==='stock'?'active':'' %>">Stock</a>
+  <a href="/faq" class="<%= active==='faq'?'active':'' %>">FAQ</a>
+  <a href="/sop" class="<%= active==='sop'?'active':'' %>">SOP</a>
+  <a href="/promo" class="<%= active==='promo'?'active':'' %>">Promo</a>
+  <a href="/blacklist" class="<%= active==='blacklist'?'active':'' %>">Blacklist</a>
+</aside>
+<main class="main-content">
+  <h2>Promo</h2>
+  <p>Total promo: <%= (promo && promo.length) || 0 %></p>
+</main>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
+    document.getElementById('sidebar')?.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

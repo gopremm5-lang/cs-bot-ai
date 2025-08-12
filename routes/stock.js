@@ -20,7 +20,7 @@ router.get("/", requireLogin, async (req, res) => {
   const stock = await loadStock();
   const toast = req.session.toast || null;
   delete req.session.toast;
-  res.render("stock", { stock, toast });
+  res.render("stock", { stock, toast, active: 'stock' });
 });
 
 // Tambah akun baru

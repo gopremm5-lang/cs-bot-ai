@@ -1,50 +1,58 @@
 <!DOCTYPE html>
-<html lang="id" class="app">
+<html lang="id">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-  <div class="app">
-    <%- include('partials/header') %>
-
-    <div class="layout">
-      <%- include('partials/sidebar') %>
-
-      <main class="main-content">
-        <div class="container-narrow">
-          <h2 class="section-title">Dashboard</h2>
-
-          <!-- Contoh statistik (pakai variabel dari controller) -->
-          <div class="row">
-            <div class="card col-6">
-              <div class="fw-bold mb-2">Produk</div>
-              <div class="display-5"><%= (stats && stats.produk) || 0 %></div>
-            </div>
-            <div class="card col-6">
-              <div class="fw-bold mb-2">Promo</div>
-              <div class="display-5"><%= (stats && stats.promo) || 0 %></div>
-            </div>
-            <div class="card col-6">
-              <div class="fw-bold mb-2">FAQ</div>
-              <div class="display-5"><%= (stats && stats.faq) || 0 %></div>
-            </div>
-            <div class="card col-6">
-              <div class="fw-bold mb-2">SOP</div>
-              <div class="display-5"><%= (stats && stats.sop) || 0 %></div>
-            </div>
-            <div class="card col-6">
-              <div class="fw-bold mb-2">Claim</div>
-              <div class="display-5"><%= (stats && stats.claim) || 0 %></div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+<nav>
+  <div class="nav-left">
+    <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    <span class="nav-title">Admin Panel</span>
   </div>
-
-  <%- include('partials/footer') %>
+  <div class="nav-right">
+    <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+    <a href="/produk" class="<%= active==='produk'?'active':'' %>">Produk</a>
+    <a href="/buyers" class="<%= active==='buyers'?'active':'' %>">User Royal</a>
+    <a href="/claims" class="<%= active==='claims'?'active':'' %>">Claims</a>
+    <a href="/stock" class="<%= active==='stock'?'active':'' %>">Stock</a>
+    <a href="/faq" class="<%= active==='faq'?'active':'' %>">FAQ</a>
+    <a href="/sop" class="<%= active==='sop'?'active':'' %>">SOP</a>
+    <a href="/promo" class="<%= active==='promo'?'active':'' %>">Promo</a>
+    <a href="/blacklist" class="<%= active==='blacklist'?'active':'' %>">Blacklist</a>
+    <a href="/logout">Logout</a>
+  </div>
+</nav>
+<aside class="sidebar" id="sidebar">
+  <a href="/dashboard" class="<%= active==='dashboard'?'active':'' %>">Dashboard</a>
+  <a href="/produk" class="<%= active==='produk'?'active':'' %>">Produk</a>
+  <a href="/buyers" class="<%= active==='buyers'?'active':'' %>">User Royal</a>
+  <a href="/claims" class="<%= active==='claims'?'active':'' %>">Claims</a>
+  <a href="/claims-replace" class="<%= active==='claims-replace'?'active':'' %>">Claims Replace</a>
+  <a href="/claims-reset" class="<%= active==='claims-reset'?'active':'' %>">Claims Reset</a>
+  <a href="/stock" class="<%= active==='stock'?'active':'' %>">Stock</a>
+  <a href="/faq" class="<%= active==='faq'?'active':'' %>">FAQ</a>
+  <a href="/sop" class="<%= active==='sop'?'active':'' %>">SOP</a>
+  <a href="/promo" class="<%= active==='promo'?'active':'' %>">Promo</a>
+  <a href="/blacklist" class="<%= active==='blacklist'?'active':'' %>">Blacklist</a>
+</aside>
+<main class="main-content">
+  <h2>Dashboard</h2>
+  <ul>
+    <li>Produk: <%= (stats && stats.produk) || 0 %></li>
+    <li>Promo: <%= (stats && stats.promo) || 0 %></li>
+    <li>FAQ: <%= (stats && stats.faq) || 0 %></li>
+    <li>SOP: <%= (stats && stats.sop) || 0 %></li>
+    <li>Claim: <%= (stats && stats.claim) || 0 %></li>
+  </ul>
+</main>
+<script>
+  document.getElementById('sidebarToggle')?.addEventListener('click',()=>{
+    document.getElementById('sidebar')?.classList.toggle('open');
+  });
+</script>
 </body>
 </html>

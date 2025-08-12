@@ -73,7 +73,7 @@ router.get('/', requireLogin, async (req, res) => {
   const toast = req.session.toast || null;
   delete req.session.toast;
 
-  res.render('buyers', { buyers, buyersAggregated, toast });
+  res.render('buyers', { buyers, buyersAggregated, toast, active: 'buyers' });
 });
 
 // ========== POST: Simpan entri baru ==========
